@@ -1,7 +1,7 @@
 """
 Defines API endpoints and policy.
 """
-import pkg_resources
+import importlib.resources as resource_filename
 from typing import List
 
 from fastapi import FastAPI
@@ -22,7 +22,7 @@ api = FastAPI(
     redoc_url=None
 )
 
-static_path = pkg_resources.resource_filename(__name__, "static")
+static_path = str(resource_filename.files(__name__).joinpath("static"))
 api.mount("/ui", StaticFiles(directory=static_path, html=True), name="ui")
 
 api.add_middleware(
